@@ -1,4 +1,5 @@
-<% include head %>
+<head>
+    <% include head %>
 </head>
 <body>
 	<% include navbar %>
@@ -6,18 +7,18 @@
 		<div class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
 				<h1 class="single-movie-title">
-
+                    <%= parsedData.title %>
 				</h1>
 				
 				<h3 class="single-movie-title">
-
+                    <%= parsedData.tagline %>
 				</h3>
 				
 
-				<img src="" />
+				<a href="<%= parsedData.homepage %>"><img src="<%= imageBaseUrl + parsedData.poster_path %>" /></a>
 				
 				<p class="overview-header">Movie Synopsis: <span class="single-movie-overview">
-					
+					<%= parsedData.overview %>
 				</span></p>
 			</div>
 		</div>
@@ -39,12 +40,19 @@
         <h4 class="modal-title" id="myModalLabel">Movie Information</h4>
       </div>
       <div class="modal-body">
-
-
+        <a href="https://www.imdb.com/title/<%=parsedData.imdb_id%>" target="_blank">IMDB Link</a>
+        <p><%= parsedData.budget %></p>
+        <p><%= parsedData.revenue %></p>
+        <p><%= parsedData.release_date %></p>
+        <ul>
+            <% parsedData.production_companies.forEach((comp)=>{ %>
+                <li><%= comp.name %></li>
+            <%})%>
+        </ul>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

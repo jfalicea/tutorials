@@ -3,6 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session')
+const passportConfig = require('./config')
+
+//=====================================
+const passport = require('passport')
+const GithubStrategy = require('passport-github').Strategy
+//=====================================
+
 
 var indexRouter = require('./routes/index');
 
@@ -12,6 +20,44 @@ app.use(helmet())
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+/*
+*-------------------------------------------------
+** EXPRESS-SESSION CONIFG 
+*-------------------------------------------------
+*/
+app.use(session({
+  secret: 'I love Express!',
+  resave: false,
+  saveUninitialized: true,
+}))
+
+
+//PASSPORT CONFIG=====================================
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new GithubStrategy({
+  clientID: passportConfig.clientID,
+  clientSecret: passportConfig.clientSecret,
+  callbackURL: passportConfig.callbackURL
+},
+function(accessToken, refreshToken, profile, cb) {
+  // console.log("======",profile);
+  return cb(null,profile);
+}
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser((user,cb)=>{
+  cb(null,user)
+});
+
+//PASSPORT CONFIG=====================================
+
+
+
+
 
 app.use(logger('dev'));
 app.use(express.json());

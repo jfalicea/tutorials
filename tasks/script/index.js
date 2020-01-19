@@ -3,15 +3,35 @@ window.onload = function(){
     // if there is text within the input field add text to the todo list. 
     this.document.getElementById('btn-addTask').addEventListener('click', ()=>{
         let value = document.getElementById('task').value
-        if(!value.length){
+        if(value){
+            console.log('truthy',value )
+            addTask(value)
+            document.getElementById('task').value = null
+        } else{
             window.alert('You must enter a task first!!!')
         }
         
-        addTask(value)
-        document.getElementById('task').value = null
     });  
 };
 
+function removeItem(e){
+    const item = this.parentNode.parentNode;
+    const parent = item.parentNode; 
+    parent.removeChild(item)
+}
+
+function completeItem(){
+    const item = this.parentNode.parentNode;
+    const parent = item.parentNode; 
+    const id = parent.id; 
+    //check if the item shoudl be added to completed or todo 
+    const target = (id === 'todo') ? document.getElementById('completed') : document.getElementById('completed') ;
+    
+    parent.removeChild(item)
+    target.insertBefore(item, target.childNodes[0])
+
+
+}
 
 
 function addTask(text){
@@ -29,13 +49,18 @@ function addTask(text){
     //create the remove button 
     remove.classList.add('remove');
     remove.innerHTML = removeImg;
+ 
+    //add click event for removing items
+
+    remove.addEventListener('click', removeItem)   
     //create the complete button 
     complete.classList.add('complete');
     complete.innerHTML = completeImg;
+    //add click event for completing items
+    complete.addEventListener('click', completeItem)   
 
     buttons.appendChild(remove);
     buttons.appendChild(complete);
     li_task.appendChild(buttons);
-
     list.insertBefore(li_task, list.childNodes[0])
-};
+};    

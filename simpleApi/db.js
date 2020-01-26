@@ -7,8 +7,8 @@ const pgp = require("pg-promise")({
     port: process.env.DB_PORT,
     database: process.env.DB_NAME
   });
-console.log("Database Host Name is: ", process.env.DB_HOST);
-console.log("The database is running on port: ",process.env.DB_PORT);
-console.log("You are using the ",process.env.DB_NAME, "database");
+// console.log("Database Host Name is:", process.env.DB_HOST);
+// console.log("The database is running on port:",process.env.DB_PORT);
+// console.log("You are using the",process.env.DB_NAME, "database");
 
 module.exports = db;
